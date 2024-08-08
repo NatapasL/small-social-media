@@ -3,6 +3,7 @@
 module Users
   class RegistrationsController < Devise::RegistrationsController
     include ExceptionHandler
+    include RackSessionsFix
 
     respond_to :json
 

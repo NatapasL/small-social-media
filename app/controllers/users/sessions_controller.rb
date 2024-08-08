@@ -3,6 +3,7 @@
 module Users
   class SessionsController < Devise::SessionsController
     include ExceptionHandler
+    include RackSessionsFix
 
     respond_to :json
 
