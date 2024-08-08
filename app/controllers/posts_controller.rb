@@ -3,7 +3,8 @@
 class PostsController < AuthenticatedApplicationController
   def index
     posts = Post.all
-    render json: { posts: }
+
+    render json: posts
   end
 
   def create
@@ -11,24 +12,28 @@ class PostsController < AuthenticatedApplicationController
     post.created_by = current_user
     post.save!
 
-    render json: { post: }, status: :ok
+    render json: post, status: :ok
   end
 
   def show
     post = Post.find(params[:id])
 
-    render json: { post: }, status: :ok
+    render json: post, status: :ok
   end
 
   def update
     post = Post.find(params[:id])
+    raise Exceptions::Forbidden unless post.owner?(current_user.id)
+
     post.update!(post_params)
 
-    render json: { post: }, status: :ok
+    render json: post, status: :ok
   end
 
   def destroy
     post = Post.find(params[:id])
+    raise Exceptions::Forbidden unless post.owner?(current_user.id)
+
     post.destroy!
 
     render json: {}, status: :ok

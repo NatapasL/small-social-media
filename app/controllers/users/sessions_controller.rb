@@ -11,7 +11,7 @@ module Users
     def respond_with(current_user, _opts = {})
       raise Exceptions::Unauthorized unless current_user
 
-      render json: { message: 'Logged in successfully.' }, status: :ok
+      render json: current_user, status: :ok
     end
 
     def respond_to_on_destroy
@@ -23,7 +23,7 @@ module Users
 
       raise Exceptions::Unauthorized unless current_user
 
-      render json: { message: 'Logged out successfully.' }, status: :ok
+      render json: { success: true }, status: :ok
     end
   end
 end

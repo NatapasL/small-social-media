@@ -10,10 +10,7 @@ module Users
 
     def respond_with(current_user, _opts = {})
       if resource.persisted?
-        render json: {
-          message: 'Signed up successfully.',
-          user: { email: current_user.email }
-        }
+        render json: current_user
         return
       end
 
