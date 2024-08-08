@@ -1,0 +1,14 @@
+Style/Encoding:
+  Enabled: false
+
+Documentation:
+  Enabled: false
+
+Layout/LineLength:
+  Max: 120
+
+Metrics/MethodLength:
+  Max: 25
+
+Metrics/AbcSize:
+  Max: 25
