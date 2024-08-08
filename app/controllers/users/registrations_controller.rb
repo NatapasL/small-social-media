@@ -2,6 +2,8 @@
 
 module Users
   class RegistrationsController < Devise::RegistrationsController
+    include ExceptionHandler
+
     respond_to :json
 
     private
@@ -15,9 +17,7 @@ module Users
         return
       end
 
-      render json: {
-        message: "User couldn't be created successfully. #{current_user.errors.full_messages.to_sentence}"
-      }, status: :unprocessable_entity
+      raise Exceptions::UnprocessableEntity, current_user.errors.full_messages.to_sentence
     end
   end
 end

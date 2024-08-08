@@ -2,32 +2,28 @@
 
 module Users
   class SessionsController < Devise::SessionsController
+    include ExceptionHandler
+
     respond_to :json
 
     private
 
     def respond_with(current_user, _opts = {})
-      if current_user
-        render json: { message: 'Logged in successfully.' }, status: :ok
-        return
-      end
+      raise Exceptions::Unauthorized unless current_user
 
-      render json: { message: 'Logged in failure.' }, status: :unauthorized
+      render json: { message: 'Logged in successfully.' }, status: :ok
     end
 
     def respond_to_on_destroy
-      if request.headers['Authorization'].present?
-        jwt_payload = JWT.decode(request.headers['Authorization'].split(' ').last,
-                                 Rails.application.credentials.devise_jwt_secret_key!).first
-        current_user = User.find(jwt_payload['sub'])
-      end
+      raise Exceptions::Unauthorized unless request.headers['Authorization'].present?
 
-      if current_user
-        render json: { message: 'Logged out successfully.' }, status: :ok
-        return
-      end
+      jwt_payload = JWT.decode(request.headers['Authorization'].split(' ').last,
+                               Rails.application.credentials.devise_jwt_secret_key!).first
+      current_user = User.find(jwt_payload['sub'])
 
-      render json: { message: "Couldn't find an active session." }, status: :unauthorized
+      raise Exceptions::Unauthorized unless current_user
+
+      render json: { message: 'Logged out successfully.' }, status: :ok
     end
   end
 end
