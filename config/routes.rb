@@ -11,5 +11,7 @@ Rails.application.routes.draw do
                        registrations: 'users/registrations'
                      }
 
-  resources :posts
+  resources :posts, defaults: { format: :json }
+
+  match '*unmatched', to: 'application#not_found', via: :all
 end
