@@ -10,12 +10,9 @@ module Users
     private
 
     def respond_with(current_user, _opts = {})
-      if resource.persisted?
-        render json: current_user
-        return
-      end
+      raise Exceptions::UnprocessableEntity, current_user.errors.full_messages.to_sentence unless resource.persisted?
 
-      raise Exceptions::UnprocessableEntity, current_user.errors.full_messages.to_sentence
+      render json: current_user
     end
   end
 end
