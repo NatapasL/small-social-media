@@ -1,44 +1,44 @@
 # README
 
-## Setup Instruction  
-1. Install bundle  
+## Setup Instructions  
+1. Install dependencies:  
 ```bash
 $ bundle install
 ```  
 
-2. Add `devise_jwt_secret_key` to secret  
-- 2.1 Generate secret.  
+2. Add `devise_jwt_secret_key` to credentials:  
+- 2.1 Generate a secret:  
 ```bash
 $ bin/rails secret
 ```  
-- 2.2 Open `credentials.yml.enc`  
+- 2.2 Open `credentials.yml.enc` for editing:  
 ```
 $ EDITOR="vim" credentials:edit
 ```  
-- 2.3 Add secret generated in 2.1 to credentials  
+- 2.3 Add secret generated in 2.1 to credentials:  
 ```yaml
   ...
   devise_jwt_secret_key: [secret generated in 2.1]
 ```  
 
-3. Run db migrate.
+3. Run database migration:
 ```bash
 $ rake db:migrate
 ```
 
-4. Start rails server, by default should be on port :3000.  
+4. Start the rails server (default port: 3000):  
 ```bash
 $ rails s
 ```  
 
-## How to run test  
-After successfully setup from instruction above, test can be run right awy.  
+## Running tests  
+After completing the setup instructions, you can run the tests with:  
 ```bash
 rspec .
 ```
 
-## How to use
-1. Register at `POST /signup`.  
+## Usage
+1. Register a new user at `POST /signup`:  
 
 ```bash
 curl \
@@ -52,7 +52,7 @@ curl \
 }'
 ```
 
-2. Log in at `POST /login`.  
+2. Log in at `POST /login`:  
 
 ```bash
 curl -i \
@@ -65,22 +65,26 @@ curl -i \
     }
 }'
 ```
-Token will be at header `authorization` in response.  
+The token will be returned in the `Authorization` header of the response.  
 
-3. Add token from 2. to header `Authorization`.
+3. Use the token from step 2 in subsequent requests:  
+
 ```bash
 curl \
 --header 'Authorization: Bearer [TOKEN]' \
 ...
 ```
-- 3.1 Get all posts at `GET /posts`.  
+
+- 3.1 Get all posts at `GET /posts`:  
+
 ```bash
 curl \
 --location 'http://localhost:3000/posts' \
 --header 'Authorization: Bearer [TOKEN]'
 ```
 
-- 3.2 Create post at `POST /posts`.  
+- 3.2 Create a post at `POST /posts`:  
+
 ```bash
 curl \
 --location 'http://localhost:3000/posts' \
@@ -91,14 +95,16 @@ curl \
 }'
 ```
 
-- 3.3 Show post at `GET /posts/:id`.  
+- 3.3 Show a specific post at `GET /posts/:id`:  
+
 ```bash
 curl \
 --location 'localhost:3000/posts/:id' \
 --header 'Authorization: Bearer [TOKEN]'
 ```
 
-- 3.4 Update post at `PUT /posts/:id`.  
+- 3.4 Update a post at `PUT /posts/:id`:  
+
 ```bash
 curl \
 --location \
@@ -110,7 +116,8 @@ curl \
 }'
 ```
 
-- 3.5 Delete post at `DELETE /posts/:id`.  
+- 3.5 Delete a post at `DELETE /posts/:id`:  
+
 ```bash
 curl \
 --location \
